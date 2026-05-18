@@ -1,132 +1,245 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GridFal</title>
 
-<title>Mini Excel Table</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
 
-<link rel="stylesheet" href="style.css">
+    body{
+      background:#0f172a;
+      color:white;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
 
+    /* TOPBAR */
+
+    .topbar{
+      width:100%;
+      padding:16px;
+      background:#111827;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .logo{
+      font-size:22px;
+      font-weight:bold;
+      color:#60a5fa;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      outline:none;
+      padding:12px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.2s;
+    }
+
+    .btn-primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#1d4ed8;
+    }
+
+    .btn-secondary{
+      background:#1e293b;
+      color:white;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .btn-secondary:hover{
+      background:#334155;
+    }
+
+    /* WORKSPACE */
+
+    .workspace{
+      flex:1;
+      padding:20px;
+      overflow:auto;
+    }
+
+    .table-container{
+      background:#111827;
+      border-radius:20px;
+      padding:16px;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    table{
+      border-collapse:collapse;
+      width:100%;
+      min-width:600px;
+    }
+
+    td{
+      border:1px solid rgba(255,255,255,0.08);
+      padding:14px;
+      min-width:120px;
+      height:55px;
+      color:white;
+      background:#1e293b;
+    }
+
+    td:focus{
+      outline:2px solid #3b82f6;
+      background:#334155;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px){
+
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .actions{
+        width:100%;
+      }
+
+      button{
+        flex:1;
+      }
+
+    }
+
+  </style>
 </head>
 <body>
 
-<div class="zoom-controls">
+  <!-- TOPBAR -->
 
-    <button onclick="zoomOut()">
-        ➖ Zoom Out
-    </button>
+  <div class="topbar">
 
-    <button onclick="zoomIn()">
-        ➕ Zoom In
-    </button>
+    <div class="logo">
+      GridFal
+    </div>
 
-</div>
+    <div class="actions">
 
-<div class="paper" id="paper">
+      <button class="btn-primary" onclick="addRow()">
+        + Row
+      </button>
 
-    <!-- TITLE -->
+      <button class="btn-primary" onclick="addColumn()">
+        + Column
+      </button>
 
-    <h1 contenteditable="true">
-        Judul Tabel
-    </h1>
-
-    <!-- HEADER INPUT -->
-
-    <div class="input-area">
-
-        <input 
-            id="header1"
-            placeholder="Nama Kolom 1"
-            oninput="updateHeader()"
-        >
-
-        <input 
-            id="header2"
-            placeholder="Nama Kolom 2"
-            oninput="updateHeader()"
-        >
-
-        <input 
-            id="header3"
-            placeholder="Nama Kolom 3"
-            oninput="updateHeader()"
-        >
+      <button class="btn-secondary">
+        Export PDF
+      </button>
 
     </div>
 
-    <!-- DATA INPUT -->
+  </div>
 
-    <div class="input-area">
+  <!-- WORKSPACE -->
 
-        <input 
-            id="input1"
-            placeholder="Isi Kolom 1"
-        >
+  <div class="workspace">
 
-        <input 
-            id="input2"
-            placeholder="Isi Kolom 2"
-        >
+    <div class="table-container">
 
-        <input 
-            id="input3"
-            placeholder="Isi Kolom 3"
-        >
+      <table id="gridTable">
 
-        <button onclick="tambahData()">
-            Tambah Data
-        </button>
+        <tbody>
 
-    </div>
+          <tr>
+            <td contenteditable="true">Nama</td>
+            <td contenteditable="true">Kelas</td>
+            <td contenteditable="true">Nilai</td>
+          </tr>
 
-    <!-- TABLE -->
+          <tr>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
 
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th class="col-number">
-                    No
-                </th>
-
-                <th 
-                    id="th1"
-                    contenteditable="true"
-                >
-                    Kolom 1
-                </th>
-
-                <th 
-                    id="th2"
-                    contenteditable="true"
-                >
-                    Kolom 2
-                </th>
-
-                <th 
-                    id="th3"
-                    contenteditable="true"
-                >
-                    Kolom 3
-                </th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="tableBody">
+          <tr>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
 
         </tbody>
 
-    </table>
+      </table>
 
-</div>
+    </div>
 
-<script src="script.js"></script>
+  </div>
+
+  <script>
+
+    // ADD ROW
+
+    function addRow(){
+
+      const table = document.getElementById("gridTable");
+      const rowCount = table.rows[0].cells.length;
+
+      const newRow = table.insertRow();
+
+      for(let i = 0; i < rowCount; i++){
+
+        const cell = newRow.insertCell();
+
+        cell.contentEditable = "true";
+
+      }
+
+    }
+
+    // ADD COLUMN
+
+    function addColumn(){
+
+      const table = document.getElementById("gridTable");
+
+      for(let i = 0; i < table.rows.length; i++){
+
+        const cell = table.rows[i].insertCell();
+
+        cell.contentEditable = "true";
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
