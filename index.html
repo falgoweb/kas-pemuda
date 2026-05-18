@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mini Excel Table</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="zoom-controls">
+
+    <button onclick="zoomOut()">
+        ➖ Zoom Out
+    </button>
+
+    <button onclick="zoomIn()">
+        ➕ Zoom In
+    </button>
+
+</div>
+
+<div class="paper" id="paper">
+
+    <!-- TITLE -->
+
+    <h1 contenteditable="true">
+        Judul Tabel
+    </h1>
+
+    <!-- HEADER INPUT -->
+
+    <div class="input-area">
+
+        <input 
+            id="header1"
+            placeholder="Nama Kolom 1"
+            oninput="updateHeader()"
+        >
+
+        <input 
+            id="header2"
+            placeholder="Nama Kolom 2"
+            oninput="updateHeader()"
+        >
+
+        <input 
+            id="header3"
+            placeholder="Nama Kolom 3"
+            oninput="updateHeader()"
+        >
+
+    </div>
+
+    <!-- DATA INPUT -->
+
+    <div class="input-area">
+
+        <input 
+            id="input1"
+            placeholder="Isi Kolom 1"
+        >
+
+        <input 
+            id="input2"
+            placeholder="Isi Kolom 2"
+        >
+
+        <input 
+            id="input3"
+            placeholder="Isi Kolom 3"
+        >
+
+        <button onclick="tambahData()">
+            Tambah Data
+        </button>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th class="col-number">
+                    No
+                </th>
+
+                <th 
+                    id="th1"
+                    contenteditable="true"
+                >
+                    Kolom 1
+                </th>
+
+                <th 
+                    id="th2"
+                    contenteditable="true"
+                >
+                    Kolom 2
+                </th>
+
+                <th 
+                    id="th3"
+                    contenteditable="true"
+                >
+                    Kolom 3
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="tableBody">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

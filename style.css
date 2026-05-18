@@ -1,0 +1,97 @@
+body{
+    margin:0;
+    background:#e5e7eb;
+    font-family:Arial;
+    padding:20px;
+}
+
+/* ================= PAPER ================= */
+
+.paper{
+    background:white;
+    padding:20px;
+    width:95%;
+    margin:auto;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+/* ================= TITLE ================= */
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* ================= INPUT AREA ================= */
+
+.input-area{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.input-area input{
+    padding:10px;
+    border:1px solid #999;
+    min-width:150px;
+}
+
+/* ================= BUTTON ================= */
+
+button{
+    padding:10px 15px;
+    border:none;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+/* ================= TABLE ================= */
+
+table{
+    border-collapse:collapse;
+    width:100%;
+}
+
+th, td{
+    border:1px solid #999;
+    padding:10px;
+    min-width:120px;
+}
+
+th{
+    background:#f3f4f6;
+    text-align:center;
+}
+
+/* ================= EDITABLE ================= */
+
+td:focus,
+th:focus,
+h1:focus{
+    outline:2px solid #22c55e;
+}
+
+/* ================= NOMOR ================= */
+
+.col-number{
+    background:#dbeafe;
+    width:60px;
+}
+/* ================= ZOOM ================= */
+
+.zoom-controls{
+    margin-bottom:15px;
+    display:flex;
+    gap:10px;
+}
+
+.paper{
+    transition:0.2s;
+    transform-origin:top left;
+}
