@@ -3,24 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GridFal</title>
+  <title>GridFal 2.0</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-  <div class="topbar">
-    <div class="logo">GridFal</div>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <h1 class="logo">GridFal</h1>
 
     <div class="actions">
-      <button class="btn-primary" onclick="addRow()">+ Row</button>
-      <button class="btn-primary" onclick="addColumn()">+ Column</button>
-      <button class="btn-secondary" onclick="exportPDF()">Export PDF</button>
-    </div>
-  </div>
 
-  <div class="workspace">
+      <button id="addRowBtn">+ Row</button>
+      <button id="addColumnBtn">+ Column</button>
+
+      <button onclick="deleteRow()">Hapus Row</button>
+      <button onclick="deleteColumn()">Hapus Column</button>
+
+      <button onclick="undoAction()">Undo</button>
+
+      <button id="exportPdfBtn">Export PDF</button>
+      <button onclick="exportExcel()">Export Excel</button>
+
+      <button id="autoNumberBtn">Auto Number</button>
+
+      <button onclick="toggleTheme()">🌙 / ☀️</button>
+
+    </div>
+  </header>
+
+  <!-- WORKSPACE -->
+  <main class="workspace">
+
     <div class="table-container">
 
       <table id="gridTable">
@@ -30,11 +46,7 @@
             <td contenteditable="true"></td>
             <td contenteditable="true"></td>
           </tr>
-          <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-          </tr>
+
           <tr>
             <td contenteditable="true"></td>
             <td contenteditable="true"></td>
@@ -44,20 +56,17 @@
       </table>
 
     </div>
-  </div>
 
-  <!-- ZOOM UI -->
+  </main>
+
+  <!-- ZOOM -->
   <div class="zoom-control">
-    <button onclick="zoomOut()">-</button>
+    <button id="zoomOutBtn">-</button>
     <span id="zoomLevel">100%</span>
-    <button onclick="zoomIn()">+</button>
+    <button id="zoomInBtn">+</button>
   </div>
 
-  <!-- LIB -->
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- SCRIPT -->
+  <!-- ONLY 1 SCRIPT -->
   <script src="script.js"></script>
 
 </body>
