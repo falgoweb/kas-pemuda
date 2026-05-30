@@ -1,86 +1,67 @@
-let zoom = 100;
+console.log("GRIDFAL READY ✔");
 
-// =====================
-// ZOOM SAFE INIT
-// =====================
-function updateZoom() {
-  const table = document.getElementById("gridTable");
-  if (!table) return;
+// anti double load (INI FIX ERROR kamu sebelumnya)
+if (window.__GRIDFAL_LOADED__) {
+  console.log("⚠ Script sudah pernah jalan, stop duplicate");
+} else {
+  window.__GRIDFAL_LOADED__ = true;
 
-  table.style.transform = `scale(${zoom / 100})`;
-  table.style.transformOrigin = "top left";
+  window.undoStack = window.undoStack || [];
 
-  const zoomLabel = document.getElementById("zoomLevel");
-  if (zoomLabel) zoomLabel.innerText = zoom + "%";
-}
-
-function zoomIn() {
-  if (zoom < 100) {
-    zoom += 10;
-    updateZoom();
-  }
-}
-
-function zoomOut() {
-  if (zoom > 50) {
-    zoom -= 10;
-    updateZoom();
-  }
-}
-
-// =====================
-// ADD ROW
-// =====================
-function addRow() {
-  const table = document.getElementById("gridTable");
-  const tbody = table.querySelector("tbody");
-  const cols = tbody.rows[0].cells.length;
-
-  const row = document.createElement("tr");
-
-  for (let i = 0; i < cols; i++) {
-    const cell = document.createElement("td");
-    cell.contentEditable = "true";
-    row.appendChild(cell);
+  function saveState(table) {
+    window.undoStack.push(table.innerHTML);
+    if (window.undoStack.length > 20) window.undoStack.shift();
   }
 
-  tbody.appendChild(row);
-}
+  window.undoAction = function () {
+    const table = document.getElementById("gridTable");
+    if (!table) return;
 
-// =====================
-// ADD COLUMN
-// =====================
-function addColumn() {
-  const rows = document.querySelectorAll("#gridTable tr");
+    if (window.undoStack.length === 0) return;
 
-  rows.forEach(row => {
-    const cell = document.createElement("td");
-    cell.contentEditable = "true";
-    row.appendChild(cell);
+    table.innerHTML = window.undoStack.pop();
+    console.log("↩ UNDO OK");
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const table = document.getElementById("gridTable");
+    const addRowBtn = document.getElementById("addRowBtn");
+    const addColumnBtn = document.getElementById("addColumnBtn");
+
+    if (!table || !addRowBtn || !addColumnBtn) {
+      console.error("❌ HTML ID tidak ditemukan");
+      return;
+    }
+
+    // ROW
+    addRowBtn.onclick = function () {
+      saveState(table);
+
+      const cols = table.rows[0].cells.length;
+      const row = table.insertRow();
+
+      for (let i = 0; i < cols; i++) {
+        const cell = row.insertCell();
+        cell.contentEditable = "true";
+      }
+
+      console.log("✔ ROW OK");
+    };
+
+    // COLUMN
+    addColumnBtn.onclick = function () {
+      saveState(table);
+
+      const rows = table.rows;
+
+      for (let i = 0; i < rows.length; i++) {
+        const cell = rows[i].insertCell();
+        cell.contentEditable = "true";
+      }
+
+      console.log("✔ COLUMN OK");
+    };
+
   });
 }
-
-// =====================
-// EXPORT PDF
-// =====================
-function exportPDF() {
-  const table = document.getElementById("gridTable");
-
-  html2canvas(table).then(canvas => {
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jspdf.jsPDF("l", "pt", "a4");
-
-    const width = pdf.internal.pageSize.getWidth();
-    const height = (canvas.height * width) / canvas.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, width, height);
-    pdf.save("gridfal.pdf");
-  });
-}
-
-// =====================
-// INIT SAFE
-// =====================
-window.addEventListener("DOMContentLoaded", () => {
-  updateZoom();
-});
